@@ -1,0 +1,27 @@
+/* src/components/futbol/InfoBoxes.css */
+.info-boxes-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  gap: 10px; /* Espacio entre las cajas */
+  background-color: #003832; /* Fondo igual al de la pantalla */
+}
+
+.info-box {
+  flex: 1; /* Para que ambas cajas ocupen el mismo espacio */
+  color: white;
+  padding: 12px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.info-box.jugadores {
+  background-color: #28a745; /* Verde */
+}
+
+.info-box.abandonados {
+  background-color: #dc3545; /* Rojo */
+}

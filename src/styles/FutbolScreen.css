@@ -1,0 +1,51 @@
+/* src/styles/FutbolScreen.css */
+.futbol-screen-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* O la fuente que prefieras */
+  background-color: #003832; /* Un verde azulado oscuro para el fondo general, similar al header */
+  color: #333; /* Color de texto por defecto para contenido */
+  min-height: 100vh;
+  padding-bottom: 80px; /* Espacio para la barra de navegación inferior fija */
+  box-sizing: border-box;
+}
+
+.futbol-screen-container .main-content {
+  /* No se necesita padding superior aquí si el Header no es fijo o si el SearchBar ya tiene margen */
+}
+
+.futbol-screen-container .match-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #004D40; /* Color del header original */
+  color: white; /* Texto blanco para contraste */
+}
+
+.futbol-screen-container .match-list-header h2 {
+  margin: 0;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.futbol-screen-container .create-match-button {
+  background-color: #4a5568; /* Un gris oscuro, puedes ajustarlo */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.futbol-screen-container .create-match-button .plus-icon {
+  font-size: 1.2em;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.futbol-screen-container .create-match-button:hover {
+  background-color: #2d3748;
+}

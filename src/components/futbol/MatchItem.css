@@ -1,0 +1,58 @@
+/* src/components/futbol/MatchItem.css */
+.match-item {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.match-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.match-info .match-date {
+  font-size: 0.9em;
+  color: #555;
+  margin: 0 0 5px 0;
+  font-weight: bold;
+}
+
+.match-info .match-description {
+  font-size: 1em;
+  color: #333;
+  margin: 0 0 5px 0;
+  font-weight: 600;
+}
+
+.match-info .match-location {
+  font-size: 0.85em;
+  color: #777;
+  margin: 0;
+}
+
+.join-button {
+  background-color: #007bff; /* Azul para el botón de unirse */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 1.5em; /* Tamaño del '+' */
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.join-button:hover {
+  background-color: #0056b3;
+}

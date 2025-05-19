@@ -1,51 +1,74 @@
-/* src/styles/FutbolScreen.css */
 .futbol-screen-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* O la fuente que prefieras */
-  background-color: #003832; /* Un verde azulado oscuro para el fondo general, similar al header */
-  color: #333; /* Color de texto por defecto para contenido */
-  min-height: 100vh;
-  padding-bottom: 80px; /* Espacio para la barra de navegación inferior fija */
+  /* Para centrar el contenedor en la página */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Define un ancho máximo para que no se extienda demasiado en pantallas grandes,
+     pero permite que sea más pequeño en pantallas de móvil. */
+  width: 100%; /* Hace que ocupe el ancho disponible hasta el max-width */
+  max-width: 450px; /* Ajusta este valor según qué tan "ancho" quieres que sea
+                       el contenido en pantallas de escritorio.
+                       Para una apariencia de móvil, valores entre 360px y 600px son comunes.
+                       La imagen que enviaste parece tener un ancho de unos 375-420px. */
+
+  /* Estilos base */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #003832; /* Fondo principal de la pantalla de fútbol */
+  min-height: 100vh; /* Asegura que ocupe al menos toda la altura de la ventana */
   box-sizing: border-box;
+
+  /* Flexbox para organizar el contenido interno (Header, main, BottomNavBar) verticalmente */
+  display: flex;
+  flex-direction: column;
+
+  /* Importante para el BottomNavBar si es fijo y quieres que el contenido no quede debajo */
+  position: relative; /* O si BottomNavBar es position:absolute dentro de este */
+  padding-bottom: 70px; /* Ajusta esto al alto de tu BottomNavBar si es fijo y está DENTRO
+                           de este contenedor y quieres espacio para él.
+                           Si el BottomNavBar es `position:fixed` a la ventana, este padding
+                           en el container es para que el contenido de `main-content` no
+                           sea ocultado por la barra. */
+  box-shadow: 0 0 15px rgba(0,0,0,0.3); /* Sombra opcional para darle profundidad */
 }
+
+/* El Header, SearchBar, InfoBoxes, MatchList, etc., deben estar diseñados
+   para ocupar el 100% del ancho de este .futbol-screen-container si quieres
+   que llenen el espacio centrado. */
 
 .futbol-screen-container .main-content {
-  /* No se necesita padding superior aquí si el Header no es fijo o si el SearchBar ya tiene margen */
+  flex-grow: 1; /* Hace que esta sección ocupe el espacio vertical disponible */
+  /* Aquí puedes añadir padding si el contenido interno no lo maneja */
+  /* background-color: #f7f9f9; */ /* Si quieres un fondo diferente para la lista de partidos */
 }
 
-.futbol-screen-container .match-list-header {
+/* Ejemplo: Asegurarse que el Header y la barra de búsqueda usen el color de fondo primario */
+.header, .search-bar-form { /* Asumiendo estas clases para tus componentes */
+  background-color: #004D40; /* Verde más oscuro del header original */
+  /* ... otros estilos para header y searchbar ... */
+}
+
+.match-list-header {
+  background-color: #004D40; /* O el color que corresponda a esta sección */
+  color: white;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  background-color: #004D40; /* Color del header original */
-  color: white; /* Texto blanco para contraste */
+}
+/* ... (resto de tus estilos para .match-list-header h2, .create-match-button, etc.) ... */
+
+.create-match-button{
+  padding: 15px 15px;
+  border-radius: 20px;
+}
+/* Los InfoBoxes deben tener sus propios fondos (verde y rojo) */
+.info-boxes-container {
+  background-color: transparent; /* O el color de fondo de main-content si es diferente */
+  /* ... */
 }
 
-.futbol-screen-container .match-list-header h2 {
-  margin: 0;
-  font-size: 1.1em;
-  font-weight: 600;
-}
-
-.futbol-screen-container .create-match-button {
-  background-color: #4a5568; /* Un gris oscuro, puedes ajustarlo */
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-}
-
-.futbol-screen-container .create-match-button .plus-icon {
-  font-size: 1.2em;
-  margin-left: 5px;
-  font-weight: bold;
-}
-
-.futbol-screen-container .create-match-button:hover {
-  background-color: #2d3748;
+/* La lista de partidos puede tener un fondo más claro */
+.match-list {
+  background-color: #f0f2f5; /* Fondo claro para la lista de partidos */
+  padding: 10px; /* Espacio alrededor de los items de partido */
 }

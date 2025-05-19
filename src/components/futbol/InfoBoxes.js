@@ -5,7 +5,7 @@ function InfoBoxes({ jugadores, abandonados }) {
   return (
     <div className="info-boxes-container">
       <div className="info-box jugadores">
-        JUGADORES: {jugadores}
+        JUGADOS: {jugadores}
       </div>
       <div className="info-box abandonados">
         ABANDONADOS: {abandonados}

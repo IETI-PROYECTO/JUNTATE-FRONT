@@ -1,19 +1,18 @@
-/* src/components/futbol/SearchBar.css */
 .search-bar-form {
   display: flex;
   align-items: center;
   padding: 10px 15px;
-  background-color: #003832; /* Fondo igual al de la pantalla */
+  background-color: #003832; 
 }
 
 .search-bar-form .search-input {
   flex-grow: 1;
   padding: 12px 15px;
-  border: 1px solid #ccc; /* Borde sutil */
-  border-radius: 20px 0 0 20px; /* Redondeado a la izquierda */
+  border: 1px solid #ccc; 
+  border-radius: 20px 0 0 20px;
   font-size: 1em;
   outline: none;
-  border-right: none; /* Quitar borde derecho para unir con el botón */
+  border-right: none; 
 }
 
 .search-bar-form .search-input::placeholder {
@@ -21,14 +20,14 @@
 }
 
 .search-bar-form .search-button {
-  background-color: white; /* Fondo blanco para el botón */
-  border: 1px solid #ccc; /* Mismo borde que el input */
-  border-left: none; /* Quitar borde izquierdo */
-  color: #333; /* Color del ícono */
+  background-color: white; 
+  border: 1px solid #ccc; 
+  border-left: none;
+  color: #333; 
   padding: 10px 15px;
-  border-radius: 0 20px 20px 0; /* Redondeado a la derecha */
+  border-radius: 0 20px 20px 0; 
   cursor: pointer;
-  font-size: 1.2em; /* Tamaño del ícono de búsqueda */
+  font-size: 1.2em; 
   display: flex;
   align-items: center;
   justify-content: center;

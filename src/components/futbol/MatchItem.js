@@ -1,5 +1,5 @@
 import React from 'react';
-import './MatchItem.css'; // Archivo CSS para estilos de MatchItem
+import './MatchItem.css';
 
 function MatchItem({ date, description, location, onJoin }) {
   return (

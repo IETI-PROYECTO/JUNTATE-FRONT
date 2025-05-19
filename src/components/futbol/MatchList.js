@@ -1,6 +1,6 @@
 import React from 'react';
 import MatchItem from './MatchItem';
-import './MatchList.css'; // Archivo CSS para estilos de MatchList
+import './MatchList.css'; 
 
 function MatchList({ matches, onJoinMatch }) {
   if (!matches || matches.length === 0) {

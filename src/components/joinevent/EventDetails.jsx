@@ -13,7 +13,7 @@ const EventDetails = ({ description, location, mapImage }) => {
         <p className="event-detail-text">{location}</p>
       </div>
       <div className="event-map-container">
-        <img src="" alt="Mapa del evento" className="event-map-image" />
+        <img src="https://es.wikipedia.org/wiki/Google_Maps" alt="Mapa del evento" className="event-map-image" />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import MatchList from '../components/futbol/MatchList';
 import BottomNavBar from '../components/futbol/BottomNavBar';
 import '../styles/FutbolScreen.css';
 
-function FutbolScreen({ onNavigateBack }) {
+function FutbolScreen({ onNavigateBack, onNavigateToJoinEvent }) {
   const [matches, setMatches] = useState([
     { id: 1, date: 'Jueves, 1 Abril, 6:00 pm', description: 'Partido 8 vs 8', location: 'Av. Calle 72 # 112 a 01, Bogotá' },
     { id: 2, date: 'Jueves, 24 Junio, 7:30 pm', description: 'Partido 5 vs 5', location: 'Calle 40 #40' },
@@ -25,8 +25,11 @@ function FutbolScreen({ onNavigateBack }) {
     console.log('Botón "Crear Partidos" presionado');
   };
 
-  const handleJoinMatch = (matchId) => {
-    console.log(`Intentando unirse al partido con ID: ${matchId}`);
+  const handleNavigateToJoin = (matchId) => {
+    const eventData = matches.find(m => m.id === matchId);
+    if (onNavigateToJoinEvent) {
+      onNavigateToJoinEvent(eventData || { id: matchId, needsMoreData: true });
+    }
   };
 
   const filteredMatches = matches.filter(match =>
@@ -44,12 +47,12 @@ function FutbolScreen({ onNavigateBack }) {
         <div className="match-list-header">
           <h2>Partidos Disponibles</h2>
           <button className="create-match-button" onClick={handleCreateMatch}>
-            Crear Partido <span className="plus-icon">+</span>
+            Crear Partidos <span className="plus-icon">+</span>
           </button>
         </div>
         <MatchList
           matches={filteredMatches}
-          onJoinMatch={handleJoinMatch}
+          onJoinMatch={handleNavigateToJoin}
         />
       </main>
       <BottomNavBar onNavigate={onNavigateBack} />

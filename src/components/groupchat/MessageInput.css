@@ -1,0 +1,39 @@
+.message-input-container {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: #f0f0f0; /* Fondo del área de input */
+  border-top: 1px solid #ddd;
+  position: sticky; /* O fixed si está fuera del scroll principal */
+  bottom: 70px; /* Ajustar si el BottomNavBar tiene altura diferente o si el input está fijo a la ventana */
+  left:0; /* Si es fixed a la ventana */
+  right:0; /* Si es fixed a la ventana */
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 90; /* Debajo del header pero encima del contenido si el header es sticky */
+}
+
+.message-text-input {
+  flex-grow: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 0.95em;
+  margin-right: 8px;
+  outline: none;
+}
+
+.attach-button,
+.send-button {
+  background: none;
+  border: none;
+  color: #004D40; /* Color principal de la app */
+  font-size: 1.5em; /* Tamaño de los iconos */
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 3px;
+}
+
+.send-button {
+  color: #007bff; /* Un azul para el botón de enviar, o mantener el verde */
+}

@@ -1,0 +1,22 @@
+.party-info-header {
+  background-color: black;
+  color: white;
+  padding: 8px 15px;
+  text-align: left;
+}
+
+.party-name {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0 0 3px 0;
+  text-transform: uppercase;
+}
+
+.party-participants {
+  font-size: 0.75em;
+  margin: 0;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

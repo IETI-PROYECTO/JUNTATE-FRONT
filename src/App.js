@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SportSelectionScreen from './screens/SportSelectionScreen';
 import FutbolScreen from './screens/FutbolScreen';
+import UserProfileScreen from './screens/UserProfileScreen';
 import JoinEventScreen from './screens/JoinEventScreen';
 import GroupChatScreen from './screens/GroupChatScreen';
+import AuthModal from './screens/AuthModal';
+
+const backendUrl = 'http://localhost:8080';
 
 const App = () => {
   const [screen, setScreen] = useState('selection');
   const [selectedEventData, setSelectedEventData] = useState(null);
-  const [currentUser, setCurrentUser] = useState({ id: 'user1', name: 'Tú Mismo', avatar: 'https://via.placeholder.com/40?text=ME' }); // Datos del usuario actual
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Al montar, intentar cargar usuario si hay token guardado
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetch(`${backendUrl}/api/auth/userinfo`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+          .then(res => {
+            if (!res.ok) throw new Error('Token inválido');
+            return res.json();
+          })
+          .then(userData => {
+            setCurrentUser(userData);
+            setShowAuthModal(false);
+          })
+          .catch(() => {
+            localStorage.removeItem('token');
+            setCurrentUser(null);
+            setShowAuthModal(true);
+          });
+    } else {
+      setShowAuthModal(true);
+    }
+  }, []);
 
   const navigateTo = (targetScreen, data = null) => {
     if (data) {
@@ -16,57 +46,77 @@ const App = () => {
     setScreen(targetScreen);
   };
 
-  const handleSelectSport = (sport) => {
-    if (sport === 'FÚTBOL') {
-      navigateTo('futbol');
-    } else {
-      alert(`Deporte seleccionado: ${sport}`);
-    }
+  const handleAuthSuccess = (data) => {
+    const { token, ...user } = data;
+    localStorage.setItem('token', token);
+    setCurrentUser(user);
+    setShowAuthModal(false);
+    setScreen('selection'); // o a donde quieras después del login
   };
 
-  const handleNavigateToJoinEvent = (eventDataFromMatchItem) => {
-    navigateTo('joinEvent', eventDataFromMatchItem);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setCurrentUser(null);
+    setShowAuthModal(true);
+    setScreen('selection');
   };
 
-  const handleConfirmJoinEvent = () => {
-    console.log("Usuario se unió al evento:", selectedEventData);
-    navigateTo('groupChat', selectedEventData);
-  };
-
-  if (screen === 'selection') {
-    return <SportSelectionScreen onSelectSport={handleSelectSport} />;
+  if (showAuthModal) {
+    return <AuthModal onAuthSuccess={handleAuthSuccess} onClose={() => setShowAuthModal(false)} />;
   }
 
-  if (screen === 'futbol') {
-    return (
-      <FutbolScreen
-        onNavigateBack={() => navigateTo('selection')}
-        onNavigateToJoinEvent={handleNavigateToJoinEvent}
-      />
-    );
+  // Solo permitimos acceder a perfil si hay usuario
+  if (screen === 'perfil' && !currentUser) {
+    setScreen('selection');
   }
 
-  if (screen === 'joinEvent') {
-    return (
-      <JoinEventScreen
-        eventData={selectedEventData}
-        onNavigateBack={() => navigateTo('futbol')}
-        onJoinEvent={handleConfirmJoinEvent}
-      />
-    );
-  }
+  switch(screen) {
+    case 'selection':
+      return <SportSelectionScreen
+          onSelectSport={(sport) => {
+            if (sport === 'FÚTBOL') {
+              navigateTo('futbol');
+            } else {
+              alert(`Deporte seleccionado: ${sport}`);
+            }
+          }}
+          onLogout={handleLogout}
+          onNavigate={navigateTo}
+      />;
 
-  if (screen === 'groupChat') {
-    return (
-      <GroupChatScreen
-        eventData={selectedEventData}
-        currentUser={currentUser}
-        onNavigateBack={() => navigateTo('joinEvent')} // O a 'futbol' si prefieres
-      />
-    );
-  }
+    case 'futbol':
+      return <FutbolScreen
+          onNavigateBack={() => navigateTo('selection')}
+          onNavigateToJoinEvent={(eventData) => navigateTo('joinEvent', eventData)}
+          onNavigate={navigateTo}
+      />;
 
-  return null;
+    case 'perfil':
+      return <UserProfileScreen
+          user={currentUser}            // Pasa user para que cargue datos
+          onNavigateBack={() => navigateTo('selection')}
+          onNavigate={navigateTo}
+      />;
+
+    case 'joinEvent':
+      return <JoinEventScreen
+          eventData={selectedEventData}
+          onNavigateBack={() => navigateTo('futbol')}
+          onJoinEvent={() => navigateTo('groupChat', selectedEventData)}
+          onNavigate={navigateTo}
+      />;
+
+    case 'groupChat':
+      return <GroupChatScreen
+          eventData={selectedEventData}
+          currentUser={currentUser}
+          onNavigateBack={() => navigateTo('joinEvent')}
+          onNavigate={navigateTo}
+      />;
+
+    default:
+      return null;
+  }
 };
 
 export default App;

@@ -1,0 +1,108 @@
+.add-match-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.add-match-form-container {
+  background-color: #003832; /* Fondo oscuro */
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 450px;
+  color: white;
+}
+
+.add-match-form-container h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.4em;
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  font-size: 0.95em;
+  background-color: #004D40;
+  color: white;
+  box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+  color: #bbb;
+}
+
+.form-group select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: #28a745;
+}
+
+.form-group option {
+  background-color: #004D40;
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  gap: 10px;
+}
+
+.form-actions button {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-match-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.submit-match-button:hover {
+  background-color: #1e7e34;
+}
+
+.cancel-match-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-match-button:hover {
+  background-color: #545b62;
+}

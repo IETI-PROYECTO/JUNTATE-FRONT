@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/AuthModal.css';
 
-const backendUrl = 'http://localhost:8080';
+const backendUrl = 'http://ec2-3-144-11-69.us-east-2.compute.amazonaws.com:8080';
 
 const AuthModal = ({ onClose, onAuthSuccess }) => {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -22,7 +22,6 @@ const AuthModal = ({ onClose, onAuthSuccess }) => {
             ? `${backendUrl}/api/auth/register`
             : `${backendUrl}/api/auth/authenticate`;
 
-        // Para login solo mandamos email y password
         const body = isRegistering
             ? formData
             : { email: formData.email, password: formData.password };

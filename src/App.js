@@ -6,7 +6,7 @@ import JoinEventScreen from './screens/JoinEventScreen';
 import GroupChatScreen from './screens/GroupChatScreen';
 import AuthModal from './screens/AuthModal';
 
-const backendUrl = 'http://localhost:8080';
+const backendUrl = 'http://ec2-3-144-11-69.us-east-2.compute.amazonaws.com:8080';
 
 const App = () => {
   const [screen, setScreen] = useState('selection');
@@ -64,8 +64,6 @@ const App = () => {
   if (showAuthModal) {
     return <AuthModal onAuthSuccess={handleAuthSuccess} onClose={() => setShowAuthModal(false)} />;
   }
-
-  // Solo permitimos acceder a perfil si hay usuario
   if (screen === 'perfil' && !currentUser) {
     setScreen('selection');
   }
@@ -93,7 +91,7 @@ const App = () => {
 
     case 'perfil':
       return <UserProfileScreen
-          user={currentUser}            // Pasa user para que cargue datos
+          user={currentUser}            
           onNavigateBack={() => navigateTo('selection')}
           onNavigate={navigateTo}
       />;

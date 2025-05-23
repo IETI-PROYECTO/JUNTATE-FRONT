@@ -1,208 +1,134 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/futbol/Header';
+import ProfileHeader from '../components/profile/ProfileHeader';
 import BottomNavBar from '../components/futbol/BottomNavBar';
-import '../styles/FutbolScreen.css';
 import '../styles/UserProfileScreen.css';
+import defaultProfileImage from '../components/profile/image.png';
 
-const backendUrl = 'http://localhost:8080';
+function parseJwt(token) {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+}
 
 function UserProfileScreen({ onNavigateBack, onNavigate }) {
-    const [formData, setFormData] = useState({
-        id: '',
-        name: '',
-        email: '',
-        password: '',
-        phone: '',
-        city: '',
-        photo: '',
-        role: '',
-    });
+  const [userData, setUserData] = useState({
+    name: '',
+    age: '23',
+    sex: 'Masculino',
+    playedMatches: '10',
+    abandonedMatches: '0',
+    nickname: 'El señor del sexo',
+    photo: defaultProfileImage,
+    references: [
+      {
+        id: 1,
+        author: 'David Restrepo',
+        text: 'Un jugador excelente, muy pocas faltas comete...',
+      },
+      {
+        id: 2,
+        author: 'Carlos el Goles',
+        text: 'Buen jugador, lo recomiendo más para delantero...',
+      },
+    ],
+    role: ''
+  });
+  const [loading, setLoading] = useState(true);
 
-    const [editMode, setEditMode] = useState(false);
-    const [tempFormData, setTempFormData] = useState(formData);
-    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function fetchUserData() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No hay token en localStorage');
+        setLoading(false);
+        return;
+      }
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const token = localStorage.getItem('token');
-            const userId = localStorage.getItem('userId');
+      const payload = parseJwt(token);
+      const email = payload?.sub;
+      if (!email) {
+        console.error('No se pudo obtener el email del token');
+        setLoading(false);
+        return;
+      }
 
-            if (!token || !userId) {
-                setLoading(false);
-                return;
-            }
+      try {
+        const response = await fetch(`http://ec2-3-144-11-69.us-east-2.compute.amazonaws.com:8080/users/user/${email}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-            try {
-                const res = await fetch(`${backendUrl}/users/${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!res.ok) {
-                    console.error('Error al obtener el perfil');
-                    setLoading(false);
-                    return;
-                }
-
-                const data = await res.json();
-                console.log('Datos recibidos del backend:', data);
-
-                const safeData = {
-                    id: data.id || '',
-                    name: data.name || '',
-                    email: data.email || '',
-                    password: '',
-                    phone: data.phone !== null ? String(data.phone) : '',
-                    city: data.city || '',
-                    photo: data.photo || '',
-                    role: data.role || '',
-                };
-
-                setFormData(safeData);
-                setTempFormData(safeData);
-            } catch (err) {
-                console.error('Error al obtener usuario:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, []);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setTempFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSave = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const res = await fetch(`${backendUrl}/users/${formData.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(tempFormData),
-            });
-
-            if (res.ok) {
-                alert('Perfil actualizado correctamente.');
-                setFormData(tempFormData);
-                setEditMode(false);
-            } else {
-                const error = await res.json();
-                alert(`Error al guardar: ${error.message || 'desconocido'}`);
-            }
-        } catch (error) {
-            console.error('Error al guardar:', error);
-            alert('Ocurrió un error al intentar guardar los cambios.');
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(prev => ({
+            ...prev,
+            name: data.name,
+            role: data.role,
+            email: data.email,
+          }));
+        } else {
+          console.error('Error al obtener los datos del usuario');
         }
-    };
-
-    const handleCancel = () => {
-        setTempFormData(formData);
-        setEditMode(false);
-    };
-
-    if (loading) {
-        return <p className="loading-message">Cargando perfil...</p>;
+      } catch (error) {
+        console.error('Error de red:', error);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    if (!formData.id) {
-        return (
-            <div className="futbol-screen-container">
-                <Header title="PERFIL" onBack={onNavigateBack} />
-                <main className="main-content user-profile-content no-user">
-                    <p className="login-message">Por favor inicia sesión para ver tu perfil.</p>
-                </main>
-                <BottomNavBar onNavigate={onNavigate} />
+    fetchUserData();
+  }, []);
+
+  if (loading) {
+    return <p className="loading-message-profile">Cargando perfil...</p>;
+  }
+
+  return (
+    <div className="profile-screen-page-container">
+      <ProfileHeader title="PERFIL DEL JUGADOR" onBack={onNavigateBack} />
+      <main className="profile-main-content">
+        <div className="player-card">
+          <section className="player-info-header">
+            <img
+              src={userData.photo}
+              alt="Foto de perfil"
+              className="player-profile-photo"
+              onError={(e) => { e.target.onerror = null; e.target.src = defaultProfileImage; }}
+            />
+            <div className="player-details">
+              <p><strong>NOMBRE:</strong> {userData.name}</p>
+              <p><strong>EDAD:</strong> {userData.age}</p>
+              <p><strong>SEXO:</strong> {userData.sex}</p>
+              <p><strong>JUGADOS:</strong> {userData.playedMatches}</p>
+              <p><strong>ABANDONADOS:</strong> {userData.abandonedMatches}</p>
+              <p><strong>APODO:</strong> {userData.nickname}</p>
+              <p><strong>ROL:</strong> {userData.role}</p>
             </div>
-        );
-    }
-
-    return (
-        <div className="futbol-screen-container">
-            <Header title="PERFIL" onBack={onNavigateBack} />
-            <main className="main-content user-profile-content">
-                <img
-                    src={formData.photo || '/default-profile.png'}
-                    alt="Foto de perfil"
-                    className="profile-photo"
-                />
-                <form className="user-profile-form" onSubmit={e => e.preventDefault()}>
-                    <input
-                        name="name"
-                        value={editMode ? tempFormData.name : (formData.name || 'No definido')}
-                        onChange={handleChange}
-                        placeholder="Nombre completo"
-                        disabled={!editMode}
-                    />
-                    <input
-                        name="email"
-                        value={editMode ? tempFormData.email : (formData.email || 'No definido')}
-                        onChange={handleChange}
-                        placeholder="Email"
-                        disabled={!editMode}
-                    />
-                    <input
-                        name="password"
-                        type="password"
-                        value={editMode ? tempFormData.password : ''}
-                        onChange={handleChange}
-                        placeholder="Contraseña"
-                        disabled={!editMode}
-                    />
-                    <input
-                        name="phone"
-                        value={editMode ? tempFormData.phone : (formData.phone || 'No definido')}
-                        onChange={handleChange}
-                        placeholder="Teléfono"
-                        disabled={!editMode}
-                    />
-                    <input
-                        name="city"
-                        value={editMode ? tempFormData.city : (formData.city || 'No definido')}
-                        onChange={handleChange}
-                        placeholder="Ciudad"
-                        disabled={!editMode}
-                    />
-                    <input
-                        name="photo"
-                        value={editMode ? tempFormData.photo : (formData.photo || '')}
-                        onChange={handleChange}
-                        placeholder="URL Foto"
-                        disabled={!editMode}
-                    />
-                    <input
-                        name="role"
-                        value={editMode ? tempFormData.role : (formData.role || 'No definido')}
-                        onChange={handleChange}
-                        placeholder="Rol"
-                        disabled={!editMode}
-                    />
-
-                    {!editMode ? (
-                        <button type="button" className="edit-button" onClick={() => setEditMode(true)}>
-                            Editar Perfil
-                        </button>
-                    ) : (
-                        <>
-                            <button type="button" className="save-button" onClick={handleSave}>
-                                Guardar Cambios
-                            </button>
-                            <button type="button" className="cancel-button" onClick={handleCancel}>
-                                Cancelar
-                            </button>
-                        </>
-                    )}
-                </form>
-            </main>
-            <BottomNavBar onNavigate={onNavigate} />
+          </section>
+          <section className="player-references">
+            <h3>REFERENCIAS:</h3>
+            {userData.references.length > 0 ? (
+              userData.references.map(ref => (
+                <div key={ref.id} className="reference-item">
+                  <p className="reference-author">{ref.author}</p>
+                  <p className="reference-text">{ref.text}</p>
+                </div>
+              ))
+            ) : (
+              <p>No hay referencias aún.</p>
+            )}
+          </section>
         </div>
-    );
+        <button type="button" className="add-reference-button">
+          Agregar una referencia
+        </button>
+      </main>
+      <BottomNavBar onNavigate={onNavigate} />
+    </div>
+  );
 }
 
 export default UserProfileScreen;

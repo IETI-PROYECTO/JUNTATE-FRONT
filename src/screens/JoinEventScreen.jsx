@@ -12,10 +12,15 @@ const JoinEventScreen = ({ eventData, onNavigateBack, onJoinEvent }) => {
     creatorAge: 18,
     playersNeeded: 18,
     abandonedMatches: 0,
-    creatorImage: "https://via.placeholder.com/100", // URL de imagen placeholder
-    description: "Buenos manitos como es pa un partido relajao 8 v 8, si quieren apostar lo arreglamos entre todos.",
+    creatorImage: "https://via.placeholder.com/100",
+    name: "Partido futbol 7",
+    gameType: "Futbol 7",
     location: "Av. Calle 72 # 112 a 01, Bogotá",
-    mapImage: "https://via.placeholder.com/400x250.png?text=Google+Maps+Placeholder" // URL de imagen placeholder para mapa
+    creationDate: "2025-02-25T20:30:00.000+00:00",
+    expirationDate: "2025-03-01T23:00:00.000+00:00",
+    numberOfPlayers: 14,
+    description: "Buenos manitos como es pa un partido relajao 8 v 8, si quieren apostar lo arreglamos entre todos.",
+    mapImage: "https://via.placeholder.com/400x250.png?text=Google+Maps+Placeholder"
   };
 
   const currentEvent = eventData || defaultEventData;
@@ -32,8 +37,13 @@ const JoinEventScreen = ({ eventData, onNavigateBack, onJoinEvent }) => {
           imageUrl={currentEvent.creatorImage}
         />
         <EventDetails
-          description={currentEvent.description}
+          name={currentEvent.name}
+          gameType={currentEvent.gameType}
           location={currentEvent.location}
+          creationDate={currentEvent.creationDate}
+          expirationDate={currentEvent.expirationDate}
+          numberOfPlayers={currentEvent.numberOfPlayers}
+          description={currentEvent.description}
           mapImage={currentEvent.mapImage}
         />
         <JoinButton onPress={onJoinEvent} />

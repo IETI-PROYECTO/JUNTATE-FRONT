@@ -12,10 +12,10 @@
 }
 
 .add-match-form-container {
-  background-color: #003832; /* Fondo oscuro como el de la pantalla */
+  background-color: #003832; /* Fondo oscuro */
   padding: 25px 30px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   width: 90%;
   max-width: 450px;
   color: white;
@@ -40,19 +40,35 @@
   font-size: 0.9em;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #555; /* Borde más oscuro para contraste */
+  border: 1px solid #555;
   border-radius: 6px;
   font-size: 0.95em;
-  background-color: #004D40; /* Fondo de input más oscuro */
+  background-color: #004D40;
   color: white;
   box-sizing: border-box;
 }
 
 .form-group input::placeholder {
   color: #bbb;
+}
+
+.form-group select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: #28a745;
+}
+
+.form-group option {
+  background-color: #004D40;
+  color: white;
 }
 
 .form-actions {
@@ -74,7 +90,7 @@
 }
 
 .submit-match-button {
-  background-color: #28a745; /* Verde */
+  background-color: #28a745;
   color: white;
 }
 
@@ -83,7 +99,7 @@
 }
 
 .cancel-match-button {
-  background-color: #6c757d; /* Gris */
+  background-color: #6c757d;
   color: white;
 }
 

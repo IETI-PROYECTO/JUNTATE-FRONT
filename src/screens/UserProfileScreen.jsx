@@ -6,28 +6,21 @@ import defaultProfileImage from '../components/profile/image.png';
 
 function UserProfileScreen({ onNavigateBack, onNavigate }) {
   const [userData, setUserData] = useState({
-    name: 'Jhon Sosa (Quemado)', // Dato quemado
+    name: 'Jhon Sosa', // Dato quemado
     age: '23', // Placeholder o dato quemado
     sex: 'Masculino', // Placeholder o dato quemado
     playedMatches: '10', // Placeholder o dato quemado
     abandonedMatches: '0', // Placeholder o dato quemado
-    nickname: 'El señor del sexo (Quemado)', // Placeholder o dato quemado
+    nickname: 'El señor del sexo', // Placeholder o dato quemado
     photo: defaultProfileImage, // Imagen por defecto
     references: [
       { id: 1, author: 'David Restrepo', text: 'Un jugador excelente, muy pocas faltas comete, compañerista y humilde. En cuanto los pagos de la cancha es muy cumplido, recomendado para cualquier partido.' },
       { id: 2, author: 'Carlos el Goles', text: 'Buen jugador, lo recomiendo mas para delantero o central si juegan futbol 11, en cuanto a futbol 8 es mejor en punta, define muy bien, compañerista y un buen lider.' },
     ],
-    role: 'Administrador (Quemado)' // Dato quemado
+    role: 'Administrador' // Dato quemado
   });
   const [loading, setLoading] = useState(false); // No hay carga real, se puede quitar si no hay otras lógicas asíncronas
 
-  // El useEffect para fetch ya no es necesario si todos los datos son quemados.
-  // Si necesitas que 'loading' cambie o alguna lógica al montar, puedes mantener un useEffect simple.
-  // useEffect(() => {
-  //   // Simular una carga mínima si es necesario para la UX, o quitar si es instantáneo
-  //   const timer = setTimeout(() => setLoading(false), 100); // Opcional
-  //   return () => clearTimeout(timer);
-  // }, []);
 
   if (loading) { // Aunque ahora 'loading' se establece en false, se mantiene la estructura por si acaso
     return <p className="loading-message-profile">Cargando perfil...</p>;

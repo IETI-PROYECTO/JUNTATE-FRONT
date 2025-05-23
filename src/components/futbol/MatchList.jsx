@@ -2,7 +2,7 @@ import React from 'react';
 import MatchItem from './MatchItem';
 import './MatchList.css';
 
-const MatchList = ({ matches, onJoinMatch, onDeleteMatch }) => {
+const MatchList = ({ matches, onJoinMatch, onDeleteMatch, onEditMatch }) => {
   if (!matches || matches.length === 0) {
     return <p className="no-matches-message">No hay partidos disponibles.</p>;
   }
@@ -15,6 +15,7 @@ const MatchList = ({ matches, onJoinMatch, onDeleteMatch }) => {
           match={match}
           onJoin={onJoinMatch}
           onDeleteMatch={onDeleteMatch}
+          onEditMatch={onEditMatch} // 🔧 Pasar la función de edición aquí
         />
       ))}
     </ul>

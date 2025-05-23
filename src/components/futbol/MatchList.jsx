@@ -1,8 +1,8 @@
 import React from 'react';
 import MatchItem from './MatchItem';
-import './MatchList.css'; 
+import './MatchList.css';
 
-function MatchList({ matches, onJoinMatch }) {
+const MatchList = ({ matches, onJoinMatch, onDeleteMatch }) => {
   if (!matches || matches.length === 0) {
     return <p className="no-matches-message">No hay partidos disponibles.</p>;
   }
@@ -12,14 +12,13 @@ function MatchList({ matches, onJoinMatch }) {
       {matches.map(match => (
         <MatchItem
           key={match.id}
-          date={match.date}
-          description={match.description}
-          location={match.location}
-          onJoin={() => onJoinMatch(match.id)}
+          match={match}
+          onJoin={onJoinMatch}
+          onDeleteMatch={onDeleteMatch}
         />
       ))}
     </ul>
   );
-}
+};
 
 export default MatchList;

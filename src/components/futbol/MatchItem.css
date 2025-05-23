@@ -17,6 +17,10 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+.match-info {
+  flex-grow: 1;
+}
+
 .match-info .match-date {
   font-size: 0.9em;
   color: #555;
@@ -37,14 +41,21 @@
   margin: 0;
 }
 
+.match-item-actions { /* Nuevo contenedor para los botones */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre botones */
+  margin-left: 10px;
+}
+
 .join-button {
-  background-color: #007bff; /* Azul para el botón de unirse */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 50%;
   width: 35px;
   height: 35px;
-  font-size: 1.5em; /* Tamaño del '+' */
+  font-size: 1.5em;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -55,4 +66,23 @@
 
 .join-button:hover {
   background-color: #0056b3;
+}
+
+.delete-match-button { /* Estilos para el botón de borrar */
+  background-color: #dc3545; /* Rojo */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 0.9em; /* Ajustar tamaño del ícono */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.delete-match-button:hover {
+  background-color: #c82333;
 }

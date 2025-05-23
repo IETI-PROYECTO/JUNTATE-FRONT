@@ -22,7 +22,6 @@ const AuthModal = ({ onClose, onAuthSuccess }) => {
             ? `${backendUrl}/api/auth/register`
             : `${backendUrl}/api/auth/authenticate`;
 
-        // Para login solo mandamos email y password
         const body = isRegistering
             ? formData
             : { email: formData.email, password: formData.password };

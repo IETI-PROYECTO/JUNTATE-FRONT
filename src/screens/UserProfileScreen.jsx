@@ -14,7 +14,8 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
     abandonedMatches: '',
     nickname: '',
     photo: '',
-    references: []
+    references: [],
+    tipo: 'admin'
   });
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +27,6 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
 
       if (!token || !userId) {
         setLoading(false);
-        // Podrías redirigir a login o mostrar mensaje
         return;
       }
 
@@ -37,7 +37,6 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
 
         if (!res.ok) {
           console.error('Error al obtener el perfil del backend');
-          // Mock data para diseño si falla el backend o no hay datos
           setUserData({
             name: 'Tito Rodriguez (Ejemplo)',
             age: '21',
@@ -45,7 +44,7 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
             playedMatches: '23',
             abandonedMatches: '0',
             nickname: 'Tito el Mago',
-            photo: 'https://via.placeholder.com/150/000000/FFFFFF/?text=TR', // Placeholder
+            photo: 'src/components/profile/image.png', // Placeholder
             references: [
               { id: 1, author: 'David Restrepo', text: 'Un jugador excelente, muy pocas faltas comete, compañerista y humilde. En cuanto los pagos de la cancha es muy cumplido, recomendado para cualquier partido.' },
               { id: 2, author: 'Carlos el Goles', text: 'Buen jugador, lo recomiendo mas para delantero o central si juegan futbol 11, en cuanto a futbol 8 es mejor en punta, define muy bien, compañerista y un buen lider.' },
@@ -58,20 +57,19 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
         const data = await res.json();
         setUserData({
           name: data.name || 'N/A',
-          age: data.age || '21', // Asumiendo que 'age' viene del backend
-          sex: data.sex || 'Masculino', // Asumiendo que 'sex' viene del backend
-          playedMatches: data.playedMatches || '23', // Asumiendo
-          abandonedMatches: data.abandonedMatches || '0', // Asumiendo
-          nickname: data.nickname || 'Tito el Mago', // Asumiendo
-          photo: data.photo || 'https://via.placeholder.com/150/000000/FFFFFF/?text=User',
-          references: data.references || [ // Asumiendo que las referencias vienen del backend
+          age: data.age || '21', 
+          sex: data.sex || 'Masculino', 
+          playedMatches: data.playedMatches || '23',
+          abandonedMatches: data.abandonedMatches || '0', 
+          nickname: data.nickname || 'Tito el Mago', 
+          photo: data.photo || 'src/components/profile/image.png',
+          references: data.references || [
             { id: 1, author: 'David Restrepo', text: 'Un jugador excelente, muy pocas faltas comete, compañerista y humilde. En cuanto los pagos de la cancha es muy cumplido, recomendado para cualquier partido.' },
             { id: 2, author: 'Carlos el Goles', text: 'Buen jugador, lo recomiendo mas para delantero o central si juegan futbol 11, en cuanto a futbol 8 es mejor en punta, define muy bien, compañerista y un buen lider.' },
           ]
         });
       } catch (err) {
         console.error('Error al obtener usuario:', err);
-        // Mock data también en caso de error de fetch
          setUserData({
             name: 'Tito Rodriguez (Error)',
             age: '21',
@@ -79,7 +77,7 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
             playedMatches: '23',
             abandonedMatches: '0',
             nickname: 'Tito el Mago',
-            photo: 'https://via.placeholder.com/150/000000/FFFFFF/?text=TR',
+            photo: 'src/components/profile/image.png',
             references: [
               { id: 1, author: 'David Restrepo', text: 'Un jugador excelente, muy pocas faltas comete, compañerista y humilde. En cuanto los pagos de la cancha es muy cumplido, recomendado para cualquier partido.' },
               { id: 2, author: 'Carlos el Goles', text: 'Buen jugador, lo recomiendo mas para delantero o central si juegan futbol 11, en cuanto a futbol 8 es mejor en punta, define muy bien, compañerista y un buen lider.' },
@@ -97,18 +95,6 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
     return <p className="loading-message-profile">Cargando perfil...</p>;
   }
 
-  if (!userData.name && !loading) { // Simple check if user data is not loaded
-    return (
-      <div className="profile-screen-page-container">
-        <ProfileHeader title="PERFIL DEL JUGADOR" onBack={onNavigateBack} />
-        <main className="profile-main-content no-user-profile">
-          <p className="login-message-profile">No se pudo cargar el perfil o no has iniciado sesión.</p>
-        </main>
-        <BottomNavBar onNavigate={onNavigate} />
-      </div>
-    );
-  }
-
   return (
     <div className="profile-screen-page-container">
       <ProfileHeader title="PERFIL DEL JUGADOR" onBack={onNavigateBack} />
@@ -116,17 +102,18 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
         <div className="player-card">
           <section className="player-info-header">
             <img
-              src={userData.photo || 'https://via.placeholder.com/100?text=Foto'}
+              src={userData.photo || 'src/components/profile/image.png'}
               alt="Foto de perfil"
               className="player-profile-photo"
             />
             <div className="player-details">
-              <p><strong>NOMBRE:</strong> {userData.name}</p>
-              <p><strong>EDAD:</strong> {userData.age}</p>
-              <p><strong>SEXO:</strong> {userData.sex}</p>
-              <p><strong>JUGADOS:</strong> {userData.playedMatches}</p>
-              <p><strong>ABANDONADOS:</strong> {userData.abandonedMatches}</p>
-              <p><strong>APODO:</strong> {userData.nickname}</p>
+              <p><strong>NOMBRE: Jhon Sosa</strong> {userData.name}</p>
+              <p><strong>EDAD: 23</strong> {userData.age}</p>
+              <p><strong>SEXO: Masculino </strong> {userData.sex}</p>
+              <p><strong>JUGADOS: 10</strong> {userData.playedMatches}</p>
+              <p><strong>ABANDONADOS: 0</strong> {userData.abandonedMatches}</p>
+              <p><strong>APODO: El señor del sexo</strong> {userData.nickname}</p>
+              <p><strong>ROL: Administrador</strong> {userData.nickname}</p>
             </div>
           </section>
           <section className="player-references">

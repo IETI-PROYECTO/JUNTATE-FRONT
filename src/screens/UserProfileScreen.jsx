@@ -4,25 +4,86 @@ import BottomNavBar from '../components/futbol/BottomNavBar';
 import '../styles/UserProfileScreen.css';
 import defaultProfileImage from '../components/profile/image.png';
 
+function parseJwt(token) {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+}
+
 function UserProfileScreen({ onNavigateBack, onNavigate }) {
   const [userData, setUserData] = useState({
-    name: 'Jhon Sosa', // Dato quemado
-    age: '23', // Placeholder o dato quemado
-    sex: 'Masculino', // Placeholder o dato quemado
-    playedMatches: '10', // Placeholder o dato quemado
-    abandonedMatches: '0', // Placeholder o dato quemado
-    nickname: 'El señor del sexo', // Placeholder o dato quemado
-    photo: defaultProfileImage, // Imagen por defecto
+    name: '',
+    age: '23',
+    sex: 'Masculino',
+    playedMatches: '10',
+    abandonedMatches: '0',
+    nickname: 'El señor del sexo',
+    photo: defaultProfileImage,
     references: [
-      { id: 1, author: 'David Restrepo', text: 'Un jugador excelente, muy pocas faltas comete, compañerista y humilde. En cuanto los pagos de la cancha es muy cumplido, recomendado para cualquier partido.' },
-      { id: 2, author: 'Carlos el Goles', text: 'Buen jugador, lo recomiendo mas para delantero o central si juegan futbol 11, en cuanto a futbol 8 es mejor en punta, define muy bien, compañerista y un buen lider.' },
+      {
+        id: 1,
+        author: 'David Restrepo',
+        text: 'Un jugador excelente, muy pocas faltas comete...',
+      },
+      {
+        id: 2,
+        author: 'Carlos el Goles',
+        text: 'Buen jugador, lo recomiendo más para delantero...',
+      },
     ],
-    role: 'Administrador' // Dato quemado
+    role: ''
   });
-  const [loading, setLoading] = useState(false); // No hay carga real, se puede quitar si no hay otras lógicas asíncronas
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    async function fetchUserData() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No hay token en localStorage');
+        setLoading(false);
+        return;
+      }
 
-  if (loading) { // Aunque ahora 'loading' se establece en false, se mantiene la estructura por si acaso
+      const payload = parseJwt(token);
+      const email = payload?.sub;
+      if (!email) {
+        console.error('No se pudo obtener el email del token');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8080/users/user/${email}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(prev => ({
+            ...prev,
+            name: data.name,
+            role: data.role,
+            email: data.email,
+            // Puedes agregar más campos aquí si los tienes
+          }));
+        } else {
+          console.error('Error al obtener los datos del usuario');
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUserData();
+  }, []);
+
+  if (loading) {
     return <p className="loading-message-profile">Cargando perfil...</p>;
   }
 
@@ -50,13 +111,16 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
           </section>
           <section className="player-references">
             <h3>REFERENCIAS:</h3>
-            {userData.references.map(ref => (
-              <div key={ref.id} className="reference-item">
-                <p className="reference-author">{ref.author}</p>
-                <p className="reference-text">{ref.text}</p>
-              </div>
-            ))}
-            {userData.references.length === 0 && <p>No hay referencias aún.</p>}
+            {userData.references.length > 0 ? (
+              userData.references.map(ref => (
+                <div key={ref.id} className="reference-item">
+                  <p className="reference-author">{ref.author}</p>
+                  <p className="reference-text">{ref.text}</p>
+                </div>
+              ))
+            ) : (
+              <p>No hay referencias aún.</p>
+            )}
           </section>
         </div>
         <button type="button" className="add-reference-button">

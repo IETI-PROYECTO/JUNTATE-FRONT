@@ -6,7 +6,7 @@ import MatchList from '../components/futbol/MatchList';
 import BottomNavBar from '../components/futbol/BottomNavBar';
 import '../styles/FutbolScreen.css';
 
-function FutbolScreen({ onNavigateBack, onNavigateToJoinEvent }) {
+function FutbolScreen({ onNavigateBack, onNavigateToJoinEvent, onNavigate }) {
   const [matches, setMatches] = useState([
     { id: 1, date: 'Jueves, 1 Abril, 6:00 pm', description: 'Partido 8 vs 8', location: 'Av. Calle 72 # 112 a 01, Bogotá' },
     { id: 2, date: 'Jueves, 24 Junio, 7:30 pm', description: 'Partido 5 vs 5', location: 'Calle 40 #40' },
@@ -33,30 +33,31 @@ function FutbolScreen({ onNavigateBack, onNavigateToJoinEvent }) {
   };
 
   const filteredMatches = matches.filter(match =>
-    (match.description?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-    (match.location?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-    (match.date?.toLowerCase() || '').includes(searchTerm.toLowerCase())
+      (match.description?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (match.location?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (match.date?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="futbol-screen-container">
-      <Header title="FÚTBOL" onBack={onNavigateBack} />
-      <main className="main-content">
-        <SearchBar onSearch={handleSearch} />
-        <InfoBoxes jugadores={3} abandonados={1} />
-        <div className="match-list-header">
-          <h2>Partidos Disponibles</h2>
-          <button className="create-match-button" onClick={handleCreateMatch}>
-            Crear Partidos <span className="plus-icon">+</span>
-          </button>
-        </div>
-        <MatchList
-          matches={filteredMatches}
-          onJoinMatch={handleNavigateToJoin}
-        />
-      </main>
-      <BottomNavBar onNavigate={onNavigateBack} />
-    </div>
+      <div className="futbol-screen-container">
+        <Header title="FÚTBOL" onBack={onNavigateBack} />
+        <main className="main-content">
+          <SearchBar onSearch={handleSearch} />
+          <InfoBoxes jugadores={3} abandonados={1} />
+          <div className="match-list-header">
+            <h2>Partidos Disponibles</h2>
+            <button className="create-match-button" onClick={handleCreateMatch}>
+              Crear Partidos <span className="plus-icon">+</span>
+            </button>
+          </div>
+          <MatchList
+              matches={filteredMatches}
+              onJoinMatch={handleNavigateToJoin}
+          />
+        </main>
+        {/* Aquí pasamos la función onNavigate para que BottomNavBar pueda navegar a cualquier pantalla */}
+        <BottomNavBar onNavigate={onNavigate} />
+      </div>
   );
 }
 

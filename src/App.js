@@ -6,7 +6,7 @@ import JoinEventScreen from './screens/JoinEventScreen';
 import GroupChatScreen from './screens/GroupChatScreen';
 import AuthModal from './screens/AuthModal';
 
-const backendUrl = 'http://localhost:8080';
+const backendUrl = 'http://ec2-3-144-11-69.us-east-2.compute.amazonaws.com:8080';
 
 const App = () => {
   const [screen, setScreen] = useState('selection');

@@ -55,7 +55,7 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
       }
 
       try {
-        const response = await fetch(`http://localhost:8080/users/user/${email}`, {
+        const response = await fetch(`http://ec2-3-144-11-69.us-east-2.compute.amazonaws.com:8080/users/user/${email}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -68,7 +68,6 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
             name: data.name,
             role: data.role,
             email: data.email,
-            // Puedes agregar más campos aquí si los tienes
           }));
         } else {
           console.error('Error al obtener los datos del usuario');

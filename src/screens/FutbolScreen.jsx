@@ -7,7 +7,7 @@ import BottomNavBar from '../components/futbol/BottomNavBar';
 import AddMatchForm from '../components/futbol/AddMatchForm';
 import '../styles/FutbolScreen.css';
 
-const backendUrl = 'http://ec2-3-144-11-69.us-east-2.compute.amazonaws.com:8080';
+const backendUrl = 'https://ieti.duckdns.org:8080';
 
 function FutbolScreen({ onNavigateBack, onNavigateToJoinEvent, onNavigate }) {
   const [matches, setMatches] = useState([]);

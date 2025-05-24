@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/AuthModal.css';
 
-const backendUrl = 'http://ec2-3-144-11-69.us-east-2.compute.amazonaws.com:8080';
+const backendUrl = 'https://ieti.duckdns.org:8080';
 
 const AuthModal = ({ onClose, onAuthSuccess }) => {
     const [isRegistering, setIsRegistering] = useState(false);

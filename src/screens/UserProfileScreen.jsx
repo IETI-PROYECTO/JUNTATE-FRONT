@@ -55,7 +55,7 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
       }
 
       try {
-        const response = await fetch(`http://localhost:8080/users/user/${email}`, {
+        const response = await fetch(`https://ieti.duckdns.org:8080/users/user/${email}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -6,7 +6,7 @@ import JoinEventScreen from './screens/JoinEventScreen';
 import GroupChatScreen from './screens/GroupChatScreen';
 import AuthModal from './screens/AuthModal';
 
-const backendUrl = 'http://localhost:8080';
+const backendUrl = 'https://ieti.duckdns.org:8080';
 
 const App = () => {
   const [screen, setScreen] = useState('selection');

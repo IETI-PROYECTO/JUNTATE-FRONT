@@ -68,7 +68,6 @@ function UserProfileScreen({ onNavigateBack, onNavigate }) {
             name: data.name,
             role: data.role,
             email: data.email,
-            // Puedes agregar más campos aquí si los tienes
           }));
         } else {
           console.error('Error al obtener los datos del usuario');
